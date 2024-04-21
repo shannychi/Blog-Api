@@ -1,0 +1,43 @@
+<%- include("partials/header.ejs") %>
+<%- include("partials/navbar") %>
+<form id="blogForm" class="max-w-xl mt-20 mx-auto" action="/posts/:id/edit'" method="POST">
+    <div class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+           Title
+        </label>
+        <input rows="10"
+          name="title"  value="<%= title %>" class="appearance-none  w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></input>
+    </div>
+    <div class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+           Content
+        </label>
+        <textarea rows="10" name="content"
+            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"><%= content %></textarea>
+    </div>
+    <div class="flex justify-between w-full px-3">
+        
+        <button onclick="setStatus('draft')" class="shadow  bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded" type="button">
+           Save to Draft
+        </button>
+        <button onclick="setStatus('published')" class="shadow bg-indigo-600 hover:bg-indigo-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-6 rounded" type="button">
+           Publish Blog
+        </button>
+    </div>
+
+    <input id="statusInput" type="hidden" name="status"/>
+</form>
+
+<script>
+    function setStatus(status) {
+        document.getElementById('statusInput').value = status; 
+        document.getElementById('blogForm').submit(); 
+        
+        if (status === 'draft') {
+            window.location.href = '/posts/drafts';
+        } else if (status === 'published') {
+            window.location.href = '/posts/published';
+        }
+    }
+</script>
+<%- include("partials/footer.ejs") %>
