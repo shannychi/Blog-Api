@@ -3,9 +3,9 @@
 <% drafts.forEach(draft => { %>
     <div class="flex flex-col p-5 lg:px-48 lg:py-11">
         <div class="bg-gray-100 p-5 mb-10">
-            <h1 class="font-bold text-2xl mb-2"><%= drafts[i].title %></h1>
-            <a href="/posts/edit/<%= drafts[i].id %>" class="text-white font-semibold bg-blue-600 hover:bg-blue-800 p-2 my-1 rounded">Edit</a>
-            <a href="/posts/:id/<%= drafts[i].id %>" class="text-white font-semibold bg-green-600 hover:bg-blue-800 p-2 my-1 rounded">Publish</a>
+            <h1 class="font-bold text-2xl mb-2"><%= drafts.title %></h1>
+            <a href="/posts/edit/<%= draft.id %>" class="text-white font-semibold bg-blue-600 hover:bg-blue-800 p-2 my-1 rounded">Edit</a>
+            <a href="/posts/<%= drafts.id %>/publish" class="text-white font-semibold bg-green-600 hover:bg-blue-800 p-2 my-1 rounded">Publish</a>
         </div>
 <% }) %>
 <%- include("partials/footer.ejs") %>

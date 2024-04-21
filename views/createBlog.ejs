@@ -32,11 +32,11 @@
     function setStatus(status) {
         document.getElementById('statusInput').value = status; 
         document.getElementById('blogForm').submit(); 
-        if (status === 'draft') {
-            window.location.href = '/posts/drafts';
-        } else if (status === 'published') {
-            window.location.href = '/posts/published';
-        }
+        // if (status === 'draft') {
+        //     window.location.href = '/posts/drafts';
+        // } else if (status === 'published') {
+        //     window.location.href = '/posts/published';
+        // }
     }
 </script>
 <%- include("partials/footer.ejs") %>
