@@ -8,20 +8,20 @@ var ObjectId = require('mongodb').ObjectID;
 
 const Pages = 20;
 
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if(token == null) {
-        return res.status(401).send( "Unauthorized" );
-    }
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if(err) {
-            return res.status(403).send("forbidden")
-        }
-        req.user = user;
-        next();
-    })
-}
+// function authenticateToken(req, res, next) {
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
+//     if(token == null) {
+//         return res.status(401).send( "Unauthorized" );
+//     }
+//     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+//         if(err) {
+//             return res.status(403).send("forbidden")
+//         }
+//         req.user = user;
+//         next();
+//     })
+// }
 
 // async function checkOwner(req, res, next) {
 //     try {
@@ -44,7 +44,7 @@ Blog.get('/posts', (req, res) => {
     res.status(200)
 })
 
-Blog.post('/posts', authenticateToken, async(req, res) => {
+Blog.post('/posts', async(req, res) => {
     try {
         const { title, content, status} = req.body;
         console.log(req.body)
@@ -108,7 +108,7 @@ Blog.get('/posts/drafts', async(req, res) => {
     }
 })
 
-Blog.get('/posts/edit/:id', authenticateToken, async (req, res) => {
+Blog.get('/posts/edit/:id',  async (req, res) => {
     try{
         const post = await createdBlog.findById(req.params.id);
        
@@ -128,7 +128,7 @@ Blog.get('/posts/edit/:id', authenticateToken, async (req, res) => {
 })
 
 
-Blog.post('/posts/update/:id', authenticateToken, async(req, res) => {
+Blog.post('/posts/update/:id',  async(req, res) => {
     try {
 
         let id = req.params.id
@@ -162,7 +162,7 @@ Blog.post('/posts/update/:id', authenticateToken, async(req, res) => {
 })
 
 
-Blog.delete('/posts/delete/:id', authenticateToken, async (req, res) => {
+Blog.delete('/posts/delete/:id', async (req, res) => {
     try {
         const postId = req.params.id;
         const deletedPost = await createdBlog.findByIdAndDelete(postId);
@@ -178,7 +178,7 @@ Blog.delete('/posts/delete/:id', authenticateToken, async (req, res) => {
 
 
 
-Blog.get('/posts/publish/:id',authenticateToken , async (req, res) => {
+Blog.get('/posts/publish/:id', async (req, res) => {
     try {
         const postId = req.params.id;
         const updatedPost = await createdBlog.findByIdAndUpdate(postId, { status: 'published' }, { new: true });
