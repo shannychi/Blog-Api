@@ -41,6 +41,7 @@ function authenticateToken(req, res, next) {
 
 Blog.get('/posts', (req, res) => {
     res.render("createBlog.ejs")
+    res.status(200)
 })
 
 Blog.post('/posts', authenticateToken, async(req, res) => {
