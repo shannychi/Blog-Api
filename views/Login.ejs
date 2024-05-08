@@ -1,5 +1,5 @@
-<%- include("partials/header.ejs") %>
-<%- include("partials/navbar") %>
+<%- include("partials/header.ejs") -%>
+<%- include("partials/navbar") -%>
 
 <div class="flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8 m-10">
     <div class="w-full max-w-md space-y-8">
@@ -12,12 +12,13 @@
             </h2>
 
 
-            <form class="m-10" action="/login" method="POST">
+            <form class="m-10" action="/register">
                 <div>
                     <label for="Email" class="block text-sm font-medium text-gray-700">Email</label>
                     <div class="mt-1">
                         <input name="Email" type="email-address" autocomplete="email-address" required
                             class="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                            <div class="Email error text-red-600 font-serif font-normal"></div>
                     </div>
                 </div>
 
@@ -26,11 +27,12 @@
                     <div class="mt-1">
                         <input name="Password" type="password" autocomplete="password" required
                             class="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                            <div class="Password error text-red-600 font-serif font-normal"></div>
                     </div>
                 </div>
 
                 <div>
-                    <button type="submit"
+                    <button
                         class=" mt-5 flex w-full justify-center rounded-md border border-transparent bg-sky-400 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-opacity-75 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2">Sign In
                         </button>
                 </div>
@@ -43,4 +45,49 @@
 </div>
 
 
-<%- include("partials/footer.ejs") %>
+<%- include("partials/footer.ejs") -%>
+
+
+<script>
+    const form = document.querySelector('form');
+    const emailError = document.querySelector('.Email.error');
+    const passwordError = document.querySelector('.Password.error');
+    
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+    
+    //reset error 
+       emailError.textContent = "";
+      passwordError.textContent = "";
+     
+    
+      // get values
+      const Email = form.Email.value;
+      const Password = form.Password.value;
+    //   const ConfirmPassword = form.ConfirmPassword.value
+    
+      try {
+        const res = await fetch('/login', { 
+          method: 'POST', 
+          body: JSON.stringify({ Email, Password }),
+          headers: {'Content-Type': 'application/json'}
+      });
+    
+      const data = await res.json();
+      console.log(data);
+      if(data.error) {
+      emailError.textContent = data.error.Email;
+      passwordError.textContent = data.error.Password;   
+      }
+    
+      if(data.user) {
+        location.assign('/dashboard');
+      }
+      }
+      catch (err) {
+        console.log(err);
+      }
+    
+    });
+        </script>

@@ -1,5 +1,5 @@
 const request = require('supertest');
-const Blog = require("../Modules/Blog")
+const Blog = require("../routes/Blog")
 
 describe('get /posts', () => {
     test('renders createBlog.ejs template', async () => {

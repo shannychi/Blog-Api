@@ -14,17 +14,20 @@
     "body-parser": "^1.20.2",
     "concurrently": "^8.2.2",
     "connect-ensure-login": "^0.1.1",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
+    "method-override": "^3.0.0",
     "mongoose": "^8.3.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "postcss-cli": "^11.0.0",
-    "tw-elements": "^2.0.0"
+    "tw-elements": "^2.0.0",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
