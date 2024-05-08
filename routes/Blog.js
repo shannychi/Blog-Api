@@ -104,14 +104,14 @@ Blog.get('/posts/drafts', checkUser, requireAuth, async(req, res) => {
 })
 
 
-Blog.get('/posts/PublishedBlogs', checkUser, requireAuth, async(req, res) => {
+Blog.get('/posts/publishedblogs', checkUser, requireAuth, async(req, res) => {
     try {
 
         const perPage = parseInt(req.query.page) || 1;
 
         const skip = (perPage - 1) * Pages;
 
-        const Draft = await createdBlog
+        const published = await createdBlog
         .find({status: 'published'})
         .skip(skip)
         .limit(Pages);
@@ -120,7 +120,7 @@ Blog.get('/posts/PublishedBlogs', checkUser, requireAuth, async(req, res) => {
         const nextPage = perPage + 1 ;
         const hasNextPage = nextPage <= Math.ceil(count / Pages);
 
-       res.render("PublishedBlog.ejs", {posts: Draft,
+       res.render("PublishedBlog.ejs", {posts: published,
         current: perPage,
         nextPage: hasNextPage ? nextPage : null,
        })
