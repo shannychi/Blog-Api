@@ -249,7 +249,7 @@ Blog.post('/edit-post/:id', async (req, res) => {
 Blog.delete('/delete-post/:id', checkUser, requireAuth, async (req, res) => {
     try {
         await createdBlog.deleteOne({_id: req.params.id});
-        res.redirect('/posts/drafts');
+        res.redirect('/dashboard');
         }
          catch (error) {
         console.error('Error deleting post:', error);
