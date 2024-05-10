@@ -32,6 +32,7 @@ const checkUser = (req, res, next) => {
         } else {
           let user = await BlogUser.findById(decodedToken.id);
           res.locals.user = user;
+          console.log(user);
           next();
         }
       });
@@ -40,4 +41,4 @@ const checkUser = (req, res, next) => {
       next();
     }
   };
-module.exports = {requireAuth, checkUser}
+module.exports = { checkUser, requireAuth}

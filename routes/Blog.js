@@ -8,12 +8,12 @@ const { checkUser, requireAuth  } = require("../middlewares/authmiddlewares");
 
 const Pages = 10;
 
-Blog.get('/posts', requireAuth, checkUser,  (req, res) => {
+Blog.get('/posts',checkUser, requireAuth,  (req, res) => {
     res.render("createBlog.ejs")
     res.status(200)
 })
 
-Blog.post('/posts', async(req, res) => {
+Blog.post('/posts', checkUser, requireAuth, async(req, res) => {
     try {
         const { title, content, status, body} = req.body;
         console.log(req.body)
@@ -24,7 +24,6 @@ Blog.post('/posts', async(req, res) => {
             // createdAt,
             // updatedAt,
             status
-            //  author: req.user.id
         });
         await newBlog.save();
         if(status === 'draft'){
@@ -81,12 +80,14 @@ Blog.get('/posts/drafts', checkUser, requireAuth, async(req, res) => {
 
         const skip = (perPage - 1) * Pages;
 
+
         const Draft = await createdBlog
-        .find({status: 'draft'})
+        .find({ status: 'draft' })
+        .populate('userId')
         .skip(skip)
         .limit(Pages);
 
-        const count = await createdBlog.countDocuments({});
+        const count = await createdBlog.countDocuments({ status: 'draft'});
         const nextPage = perPage + 1 ;
         const hasNextPage = nextPage <= Math.ceil(count / Pages);
 
@@ -106,21 +107,21 @@ Blog.get('/posts/drafts', checkUser, requireAuth, async(req, res) => {
 
 Blog.get('/posts/publishedblogs', checkUser, requireAuth, async(req, res) => {
     try {
-
+ 
         const perPage = parseInt(req.query.page) || 1;
-
         const skip = (perPage - 1) * Pages;
 
         const Draft = await createdBlog
-        .find({status: 'published'})
+        .find({'userId': req.user.id,  status: 'published'})
+        .populate('userId',['title', 'content', 'body'])
         .skip(skip)
         .limit(Pages);
 
-        const count = await createdBlog.countDocuments({});
+        const count = await createdBlog.countDocuments({ status: 'published' });
         const nextPage = perPage + 1 ;
         const hasNextPage = nextPage <= Math.ceil(count / Pages);
 
-       res.render("publishedBlog.ejs", {posts: Draft,
+       res.render("publishedBlog.ejs", {currentUser: req.user, posts: Draft,
         current: perPage,
         nextPage: hasNextPage ? nextPage : null,
        })

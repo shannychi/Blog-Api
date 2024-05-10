@@ -101,6 +101,7 @@ module.exports.Login_post = async (req, res) => {
 
     module.exports.admin_dashboard = async(req, res) => {
         try {
+
             const data = createdBlog.find();
             res.render("UserDashboard.ejs", data)
         }
