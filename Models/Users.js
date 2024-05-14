@@ -23,7 +23,7 @@ const BlogUser =  new  Schema({
         Password: {
             type: String,
             required: [true, "please enter a password"],
-            minlength: [8, "minimun password length is 8 characters" ]
+            minlength: [8, "minimum password length is 8 characters" ]
         }
         // ConfirmPassword: {
         //     type: String,
