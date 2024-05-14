@@ -7,6 +7,7 @@
       <div class="bg-gray-100 p-5 mb-10">
           <h1 class="font-bold text-2xl mb-2"><%= post.title %></h1>
           <p class="my-3"><%= post.content %></p>
+          <p class="my-3">Author: <%= post.author.FirstName%> <%= post.author.LastName%></p>
           <p><%= post.createdAt.toDateString() %></p>
          <a href="/post/<%= post.id %>">
           <button class="text-white font-semibold bg-blue-600 hover:bg-blue-800 p-2 my-1 rounded">Read More...</button>

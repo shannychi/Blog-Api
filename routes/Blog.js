@@ -16,16 +16,21 @@ Blog.get('/posts',checkUser, requireAuth,  (req, res) => {
 Blog.post('/posts', checkUser, requireAuth, async(req, res) => {
     try {
         const { title, content, status, body} = req.body;
-        console.log(req.body)
+         
+        const author = await BlogUser.findById(req.user.id);
+
         const newBlog = new createdBlog({
             title,
             content,
             body,
             // createdAt,
             // updatedAt,
+            userId: req.user.id,
+            author: {FirstName: author.FirstName, LastName: author.LastName},
             status
         });
         await newBlog.save();
+        console.log(newBlog);
         if(status === 'draft'){
             res.status(200).redirect("/posts/drafts")
         }
@@ -55,10 +60,16 @@ Blog.get('/posts/published', async(req, res) => {
         .skip(skip)
         .limit(Pages);
 
+        // //get authors for each post
+        // const publishedWithAuthors = await Promise.all(published.map(async (post) => {
+        //     const author = await BlogUser.findById(post.userId);
+        //     return { post, author };
+        // }));
+
         const count = await createdBlog.countDocuments({});
         const nextPage = perPage + 1 ;
         const hasNextPage = nextPage <= Math.ceil(count / Pages);
-
+           
        res.render("Published.ejs", {posts: published,
         current: perPage,
         nextPage: hasNextPage ? nextPage : null,
@@ -82,12 +93,12 @@ Blog.get('/posts/drafts', checkUser, requireAuth, async(req, res) => {
 
 
         const Draft = await createdBlog
-        .find({ status: 'draft' })
-        .populate('userId')
+        .find({ userId: req.user.id, status: 'draft' })
+        .populate('userId', ['title', 'content', 'body'])
         .skip(skip)
         .limit(Pages);
 
-        const count = await createdBlog.countDocuments({ status: 'draft'});
+        const count = await createdBlog.countDocuments({ userId: req.user.id, status: 'draft'});
         const nextPage = perPage + 1 ;
         const hasNextPage = nextPage <= Math.ceil(count / Pages);
 
@@ -110,18 +121,17 @@ Blog.get('/posts/publishedblogs', checkUser, requireAuth, async(req, res) => {
  
         const perPage = parseInt(req.query.page) || 1;
         const skip = (perPage - 1) * Pages;
-
         const Draft = await createdBlog
-        .find({'userId': req.user.id,  status: 'published'})
+        .find({ userId: req.user.id,  status: 'published'})
         .populate('userId',['title', 'content', 'body'])
         .skip(skip)
         .limit(Pages);
 
-        const count = await createdBlog.countDocuments({ status: 'published' });
+        const count = await createdBlog.countDocuments({ userId: req.user.id, status: 'published' });
         const nextPage = perPage + 1 ;
         const hasNextPage = nextPage <= Math.ceil(count / Pages);
 
-       res.render("publishedBlog.ejs", {currentUser: req.user, posts: Draft,
+       res.render("publishedBlog.ejs", {posts: Draft,
         current: perPage,
         nextPage: hasNextPage ? nextPage : null,
        })

@@ -101,12 +101,13 @@ module.exports.Login_post = async (req, res) => {
 
     module.exports.admin_dashboard = async(req, res) => {
         try {
+            
+            const totalPosts = await createdBlog.countDocuments({userId: req.user.id})
 
-            const data = createdBlog.find();
-            res.render("UserDashboard.ejs", data)
+            res.render("UserDashboard.ejs", {currentUser: req.user, totalPosts} )
         }
         catch(err) {
-
+          console.log('error getting user dashboard:', err)
         }
     }
 

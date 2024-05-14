@@ -6,11 +6,13 @@ const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
 //check json web token exist
     if(token) {
-  jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+  jwt.verify(token, process.env.JWT_SECRET, async(err, decodedToken) => {
     if(err) {
         console.log(err.message);
         res.redirect('/login')
     } else {
+      // let user = await BlogUser.findById(decodedToken.id);
+      //     req.user = user;
         console.log(decodedToken);
         next();
     }
@@ -27,17 +29,17 @@ const checkUser = (req, res, next) => {
     if (token) {
       jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
         if (err) {
-          res.locals.user = null;
+          req.user = null;
           next();
         } else {
           let user = await BlogUser.findById(decodedToken.id);
-          res.locals.user = user;
+          req.user = user;
           console.log(user);
           next();
         }
       });
     } else {
-      res.locals.user = null;
+      req.user = null;
       next();
     }
   };

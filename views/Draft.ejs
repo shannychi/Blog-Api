@@ -5,33 +5,47 @@
 </button></a>
 
 <div>
-  <% posts.forEach(post => { %>
-    <div class="flex flex-col p-5 lg:px-48 lg:py-11">
-      <div class="bg-gray-100 p-5 mb-10">
-        <a href="/post/<%= post.id %>">
-            <h1 class="font-bold text-2xl mb-2"><%= post.title %></h1>
-         </a>
-         <div class="flex gap-3">
-            <a href="/edit-post/<%= post.id %>"><button
-                class="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center">
-                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                    </svg>
-                </span>
-                <span class="md:inline-block">Edit</span>
-            </button></a>
-    
-            <form action="/delete-post/<%= post._id %>?_method=DELETE" method="POST">
-              <input type="submit" value="Delete" class="inline-flex items-center px-4 py-2 bg-red-600 transition ease-in-out delay-75 hover:bg-red-700 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110">
-            </form>
-    
+  <% if (posts.length > 0) { %>
+ 
+    <% posts.forEach(post => { %>
+        <div class="flex flex-col p-5 lg:px-48 lg:py-11">
+          <div class="bg-gray-100 p-5 mb-10">
+            <a href="/post/<%= post.id %>">
+                <h1 class="font-bold text-2xl mb-2"><%= post.title %></h1>
+             </a>
+             <div class="flex gap-3">
+                <a href="/edit-post/<%= post.id %>"><button
+                    class="text-slate-800 hover:text-blue-600 text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-l-lg font-medium px-4 py-2 inline-flex space-x-1 items-center">
+                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                        </svg>
+                    </span>
+                    <span class="md:inline-block">Edit</span>
+                </button></a>
+        
+                <form action="/delete-post/<%= post._id %>?_method=DELETE" method="POST">
+                  <input type="submit" value="Delete" class="inline-flex items-center px-4 py-2 bg-red-600 transition ease-in-out delay-75 hover:bg-red-700 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110">
+                </form>
+        
+              </div>
+             
           </div>
-         
-      </div>
-    </div>
-  <% }) %>
+        </div>
+    
+      <% }) %>
+
+<% } else{ %>
+  <div class="no-file-found flex flex-col items-center justify-center py-8 px-4 text-center bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
+    <svg class="w-12 h-12 dark:text-gray-400 text-gray-700" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="200px" width="200px" xmlns="http://www.w3.org/2000/svg"><g id="File_Off"><g><path d="M4,3.308a.5.5,0,0,0-.7.71l.76.76v14.67a2.5,2.5,0,0,0,2.5,2.5H17.44a2.476,2.476,0,0,0,2.28-1.51l.28.28c.45.45,1.16-.26.7-.71Zm14.92,16.33a1.492,1.492,0,0,1-1.48,1.31H6.56a1.5,1.5,0,0,1-1.5-1.5V5.778Z"></path><path d="M13.38,3.088v2.92a2.5,2.5,0,0,0,2.5,2.5h3.07l-.01,6.7a.5.5,0,0,0,1,0V8.538a2.057,2.057,0,0,0-.75-1.47c-1.3-1.26-2.59-2.53-3.89-3.8a3.924,3.924,0,0,0-1.41-1.13,6.523,6.523,0,0,0-1.71-.06H6.81a.5.5,0,0,0,0,1Zm4.83,4.42H15.88a1.5,1.5,0,0,1-1.5-1.5V3.768Z"></path></g></g></svg>
+    <h3 class="text-xl font-medium mt-4 text-gray-700 dark:text-gray-200">No Draft Blog</h3>
+    <p class="text-gray-500 dark:text-gray-400 mt-2">
+      You do not have any draft blog
+    </p>
+  </div>
+<% } %>
+ 
 </div>
 
 <% if (nextPage !== null) { %>

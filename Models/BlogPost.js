@@ -10,11 +10,15 @@ const createdBlog= mongoose.model(
         content: {type: String, required:true},
         status: {type: String, enum: ['draft', 'published'], default: 'draft'},
         userId: {
-            type: mongoose.Schema.Types.ObjectId, ref: 'BlogUser'
+            type: mongoose.Schema.Types.ObjectId, ref: 'BlogUser', required: true
           },
         // read_count:  {type: String, required:true},
         // reading_time: {type: String, required:true},
         body: {type: String, require:true},
+        author: {
+          FirstName: String,
+          LastName: String
+        },
         createdAt:{
           type: Date,
           default: Date.now
