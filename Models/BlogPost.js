@@ -19,6 +19,9 @@ const createdBlog= mongoose.model(
           FirstName: String,
           LastName: String
         },
+        image: {
+          type: String
+        },
         createdAt:{
           type: Date,
           default: Date.now
