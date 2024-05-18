@@ -36,7 +36,7 @@ npm install
 
 **3. Set up environment variables:**
 
-Create a .env file in the root directory and add your environment variables.
+Create a .env file in the root directory and add your environment variables: 
 
 * MONGODB_URL= your-mongodb-connection-string
 * JWT_SECRET= your-session-secret 
