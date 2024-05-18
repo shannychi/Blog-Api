@@ -19,24 +19,28 @@
 
 **Prerequisites**
 
-Node.js
-MongoDB
+* Node.js
+* MongoDB
 
 # Installation
 
  **1. Clone the repository:**
 
-git clone https://github.com/shannychi/Blog-Api.git
-cd blog-api
+* git clone <https://github.com/shannychi/Blog-Api.git>
+
+* cd blog-api
 
 **2. Install dependencies:**
+
 npm install
 
 **3. Set up environment variables:**
+
 Create a .env file in the root directory and add your environment variables.
 
 * MONGODB_URL= your-mongodb-connection-string
 * JWT_SECRET= your-session-secret 
 
 **4. Run the application:**
+
 npm start
